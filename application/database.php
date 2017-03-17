@@ -17,7 +17,7 @@ return [
     // 数据库名
     'database'       => 'think_blog',
     // 用户名
-    'username'       => 'admin'',
+    'username'       => 'admin',
     // 密码
     'password'       => 'a9e1bd65',
     // 端口
