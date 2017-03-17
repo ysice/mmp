@@ -15,13 +15,13 @@ return [
     // 服务器地址
     'hostname'       => '127.0.0.1',
     // 数据库名
-    'database'       => 'thinkblog',
+    'database'       => 'think_blog',
     // 用户名
     'username'       => 'admin'',
     // 密码
     'password'       => 'a9e1bd65',
     // 端口
-    'hostport'       => '3312',,
+    'hostport'       => '3312',
     // 连接dsn
     'dsn'            => '',
     // 数据库连接参数
