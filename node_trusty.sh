@@ -18,7 +18,6 @@ if [ -f "/var/run/dc-agent.pid" ];then
     pid=`cat /var/run/dc-agent.pid`
     kill -0 $pid || kill -9 $pid
 fi
-
-dc-agent -d -s $MANAGE_IP
+gent -d -s http://$MANAGE_IP:4001
 
 
