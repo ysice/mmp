@@ -1,11 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-if [ -z "$MANAGE_IP" ];then
-	echo "Unknown MANAGE IP,please export MANAGE_IP=ip_address(manage ip)"
-	exit 3
-fi
-
 function check() {
 	for service in firewalld NetworkManager
 	do
