@@ -1,7 +1,6 @@
 #!/bin/sh
 
-#nodename=`dc-ctl get node | grep -vE '(name|False|manage|compute)' | awk '{print $2}' `
-nodename=`ifconfig | grep ether | awk '{print $2}'`
+nodename=`dc-ctl get node | grep -vE '(name|False|manage|compute)' | awk '{print $2}' `
 
 if [  -z  $nodename ];then
 	echo "please start dc-agent in compute or no node to add-identity."
