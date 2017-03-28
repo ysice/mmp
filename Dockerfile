@@ -1,4 +1,4 @@
-FROM 		tomcat:8.0.21-jre8
+FROM 		hub.c.163.com/library/tomcat:latest
 
 MAINTAINER 	Amjad Afanah (amjad@dchq.io)
 
