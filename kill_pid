@@ -1,1 +1,0 @@
-./nb.sh | grep 4000 | awk  '{print $2}'  | xargs -t kill -9
