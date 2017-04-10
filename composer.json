@@ -31,7 +31,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "topthink/think-image": "^1.0",
         "topthink/think-captcha": "^1.0",
-        "anekdotes/file": "1.0.4"
+        "anekdotes/file": "1.0.4",
+	"ext-gd":"*"
     },
     "extra": {
         "think-path": "thinkphp"
