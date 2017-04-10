@@ -1,0 +1,90 @@
+{extend name="layout:base" /}
+
+{block name="header"}
+<link rel="stylesheet" href="/static/js/icheck/minimal/green.css">
+{/block}
+
+{block name="body"}
+
+{include file="common:nav" /}
+
+<div class="container bg-fff mt-20 br-5">
+    <div class="row pt-15-pb-15">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation"><a href="{:url('index/database/backup')}">备份</a></li>
+                <li role="presentation"><a href="{:url('index/database/restore')}">还原</a></li>
+                <li role="presentation" class="active"><a href="{:url('index/database/optimize')}">优化</a></li>
+            </ul>
+        </div>
+
+        <div class="col-lg-12 mt-10">
+            <form action="{:url('index/database/postOptimize')}" method="post">
+                {:token()}
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th width="8%"><input type="checkbox" id="select-all" checked></th>
+                        <th>表名</th>
+                        <th>引擎</th>
+                        <th>大小</th>
+                        <th>碎片</th>
+                        <th>创建时间</th>
+                        <th>字符编码</th>
+                        <th>注释</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {volist name="tables" id="table"}
+                    <tr>
+                        <td><input type="checkbox" name="table[]" value="{$table.Name}" checked></td>
+                        <td><b>{$table.Name}</b></td>
+                        <td>{$table.Engine}</td>
+                        <td>{:data_size($table['Data_length'])}</td>
+                        <td>{:data_size($table['Data_free'])}</td>
+                        <td>{$table.Create_time}</td>
+                        <td>{$table.Collation}</td>
+                        <td>{$table.Comment}</td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-default">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i> 立即优化
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{include file="common:footer"}
+
+{/block}
+
+{block name="footer"}
+<script>
+    require(["icheck"], function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-green',
+            radioClass: 'iradio_minimal-green',
+            increaseArea: '20%'
+        });
+
+        $('input').on('ifChecked', function(event){
+            if ($(this).attr('id') == 'select-all') {
+                $('input').iCheck('check');
+            }
+        });
+        $('input').on('ifUnchecked', function(event){
+            if ($(this).attr('id') == 'select-all') {
+                $('input').iCheck('uncheck');
+            }
+        });
+    });
+</script>
+{/block}

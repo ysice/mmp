@@ -1,0 +1,50 @@
+{extend name="layout:base" /}
+
+{block name="body"}
+
+{include file="common:nav" /}
+
+
+<div class="container bg-fff mt-20 br-5">
+    <div class="row pt-15-pb-15">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation"><a href="{:url('addons/addons/getList')}">已安装</a></li>
+                <li role="presentation" class="active"><a href="{:url('addons/addons/getNoInstallList')}">未安装</a></li>
+            </ul>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="row">
+                {if condition="count($noInstallContainer) eq 0"}
+                {include file="common:nodata" /}
+                {else}
+                {volist name="noInstallContainer" id="item"}
+                <div class="col-lg-6 mt-10">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <img src="/addons/logo/wefee.png" class="img-thumbnail" alt="{$item.name}">
+                        </div>
+                        <div class="col-lg-10">
+                            <h4>{$item.name}</h4>
+                            <p>{$item.description}</p>
+                            <p>作者：{$item.author}</p>
+                            <p>版本：{$item.version}</p>
+                            <p class="btn-group">
+                                <a onclick="if (confirm('确定安装？')) { location.href = '{:url('addons/addons/install', ['addons_sign' => $key])}'; }" class="btn btn-success">安装</a>
+                                <a onclick="if (confirm('确定删除？')) { location.href = '{:url('addons/addons/delete', ['addons_sign' => $key])}'; }" class="btn btn-danger">删除</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {/volist}
+                {/if}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{include file="common:footer" /}
+
+{/block}

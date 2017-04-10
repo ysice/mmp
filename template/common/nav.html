@@ -1,0 +1,58 @@
+<nav class="row no-margin top-header-menu">
+    <div class="col-lg-2 lh-60">
+        <strong>Wefee</strong>
+        <small>PowerBy wefee.cc</small>
+    </div>
+    <div class="col-lg-8 top-header-menu-box">
+        <ul>
+            <li class="{if condition="stristr(request()->pathinfo(), 'dashboard/index') neq false"}active{/if}">
+                <a href="{:url('index/dashboard/index')}">
+                    <i class="fa fa-tachometer" aria-hidden="true"></i> 主面板
+                </a>
+            </li>
+            <li class="{if condition="stristr(request()->pathinfo(), 'setting/wechat') neq false"}active{/if}">
+                <a href="{:url('index/setting/wechat')}">
+                    <i class="fa fa-weixin" aria-hidden="true"></i> 微信设置
+                </a>
+            </li>
+            <li class="{if condition="(stristr(request()->pathinfo(), 'rule') neq false) OR (stristr(request()->pathinfo(), 'reply') neq false)"}active{/if}">
+                <a href="{:url('index/rule/index')}">
+                    <i class="fa fa-reply" aria-hidden="true"></i> 消息回复
+                </a>
+            </li>
+            <li class="{if condition="stristr(request()->pathinfo(), 'index/admin') neq false"}active{/if}">
+                <a href="{:url('index/index/admin')}">
+                    <i class="fa fa-user" aria-hidden="true"></i> 账户中心
+                </a>
+            </li>
+            <li class="{if condition="stristr(request()->pathinfo(), 'addons/addons') neq false"}active{/if}">
+                <a href="{:url('addons/addons/getList')}">
+                    <i class="fa fa-puzzle-piece" aria-hidden="true"></i> 插件管理
+                </a>
+            </li>
+            <li class="{if condition="stristr(request()->pathinfo(), 'hooks') neq false"}active{/if}">
+                <a href="{:url('addons/hooks/getList')}">
+                    <i class="fa fa-eye" aria-hidden="true"></i> 钩子管理
+                </a>
+            </li>
+            <li class="{if condition="stristr(request()->pathinfo(), 'index/setting/setting') neq false"}active{/if}">
+                <a href="{:url('index/setting/setting')}">
+                    <i class="fa fa-cog" aria-hidden="true"></i> 站点配置
+                </a>
+            </li>
+            <li class="{if condition="stristr(request()->pathinfo(), 'index/database') neq false"}active{/if}">
+                <a href="{:url('index/database/backup')}">
+                    <i class="fa fa-database" aria-hidden="true"></i> 数据库
+                </a>
+            </li>
+            <li class="{if condition="stristr(request()->pathinfo(), 'index/system') neq false"}active{/if}">
+                <a href="{:url('index/system/index')}">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> 系统信息
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-lg-2 text-right lh-60">
+        您好，<b>{$user->username}</b>
+    </div>
+</nav>

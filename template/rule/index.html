@@ -1,0 +1,149 @@
+{extend name="layout:base" /}
+
+{block name="body"}
+
+{include file="common:nav" /}
+
+<div class="container">
+    <div class="row bg-fff mt-20 pt-15-pb-15">
+
+        <div class="col-lg-12">
+            <a href="{:url('index/rule/add')}" class="btn btn-primary">添加规则</a>
+        </div>
+
+        <div class="col-lg-12 pt-15-pb-15">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    筛选
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" action="" method="get">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">规则名</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="rule_name"  value="{:request()->get('rule_name')}" class="form-control" placeholder="输入规则名关键字">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">规则状态</label>
+                            <div class="col-sm-10">
+                                <input type="radio" name="rule_status" value="all" {:in_array(request()->get('rule_status'), [1,-1]) ? '' : 'checked'}> 全部
+                                <input type="radio" name="rule_status" value="1" {:request()->get('rule_status') == 1 ? 'checked' : ''}> 正常
+                                <input type="radio" name="rule_status" value="-1" {:request()->get('rule_status') == -1 ? 'checked' : ''}> 停止
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                <button type="submit" class="btn btn-primary">确定</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {if condition="count($rules) eq 0"}
+        {include file="common:nodata" /}
+        {else}
+        {volist name="rules" id="rule"}
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <b>{$rule->rule_name}</b>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <p>排序：<span class="label label-warning">{$rule->rule_sort}</span></p>
+                        <p>
+                            规则：
+                        <span class="label label-danger">
+                        {switch name="rule.rule_type"}
+                            {case value="equal"}完全相等{/case}
+                            {case value="include"}包含{/case}
+                            {case value="reg"}正则{/case}
+                        {/switch}
+                        </span>
+                        </p>
+                        <p>内容：<span class="label label-success">{$rule->rule_content}</span></p>
+                        <p>状态：<span class="label label-info">{$rule['rule_status'] == 1 ? '正常' : '停止'}</span></p>
+                    </div>
+                    <div>
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th width="5%">编号</th>
+                                <th width="5%">顺序</th>
+                                <th width="5%">类型</th>
+                                <th width="5%">状态</th>
+                                <th width="65%">回复内容</th>
+                                <th width="15%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="$rule->replies()->order('sort', 'asc')->select()" id="reply"}
+                            <tr>
+                                <td>{$reply->id}</td>
+                                <td>{$reply->sort}</td>
+                                <td>
+                                    <span class="label label-info">
+                                    {switch name="reply.type"}
+                                    {case value="text"}文本{/case}
+                                    {case value="image"}图片{/case}
+                                    {case value="video"}视频{/case}
+                                    {case value="voice"}音频{/case}
+                                    {case value="news"}图文{/case}
+                                    {/switch}
+                                    </span>
+                                </td>
+                                <td>
+                                    {if condition="$reply->status eq 1"}
+                                    <span class="label label-success">正常</span>
+                                    {else}
+                                    <span class="label label-danger">停止</span>
+                                    {/if}
+                                </td>
+                                <td>{$reply->content}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="{:url('index/reply/edit', ['id' => $reply['id']])}" class="btn btn-warning btn-sm">编辑</a>
+                                        <a onclick="if (confirm('确定删除？')) { location.href = '{:url('index/reply/delete', ['id' => $reply['id']])}'; }" class="btn btn-danger btn-sm">删除</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <a href="{:url('index/reply/add', ['rule_id' => $rule['id']])}" class="btn btn-info">添加回复内容</a>
+                    <a onclick="if (confirm('确定删除？')) { location.href = '{:url('index/rule/delete', ['id' => $rule['id']])}'; }" class="btn btn-danger delete">删除</a>
+                    <a href="{:url('index/rule/edit', ['id' => $rule['id']])}" class="btn btn-warning">编辑</a>
+                </div>
+            </div>
+        </div>
+        {/volist}
+        {/if}
+
+        <div class="col-lg-12 text-center">
+            {$rules->render()}
+        </div>
+
+    </div>
+</div>
+
+{include file="common:footer" /}
+
+{/block}
+
+{block name="footer"}
+<script>
+    require(["icheck"], function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-green',
+            radioClass: 'iradio_minimal-green',
+            increaseArea: '20%'
+        });
+    });
+</script>
+{/block}

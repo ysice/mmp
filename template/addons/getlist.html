@@ -1,0 +1,59 @@
+{extend name="layout:base" /}
+
+{block name="body"}
+
+{include file="common:nav" /}
+
+<div class="container bg-fff mt-20 br-5">
+    <div class="row pt-15-pb-15">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="{:url('addons/addons/getList')}">已安装</a></li>
+                <li role="presentation"><a href="{:url('addons/addons/getNoInstallList')}">未安装</a></li>
+            </ul>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="row">
+                {if condition="count($addons) eq 0"}
+                {include file="common:nodata" /}
+                {else}
+                {volist name="addons" id="item"}
+                <div class="col-lg-6 mt-10">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <img src="/addons/logo/{$item->addons_sign}/{:get_addon_logo_name($item->addons_sign)}" class="img-thumbnail" alt="{$item->addons_name}">
+                        </div>
+                        <div class="col-lg-10">
+                            <h4>{$item->addons_name}</h4>
+                            <p>{$item->addons_description}</p>
+                            <p>作者：{$item->addons_author}</p>
+                            <p>版本：{$item->addons_version}</p>
+                            <p class="btn-group">
+                                <a href="{:url('addons/addons/config', ['addons_sign' => $item->addons_sign])}" class="btn btn-info">配置</a>
+                                <a href="{:url('addons/addons/index', ['addons_sign' => $item->addons_sign])}" class="btn btn-warning">进入</a>
+                                <a onclick="if (confirm('确定卸载？')) { location.href = '{:url('addons/addons/uninstall', ['addons_sign' => $item->addons_sign])}'; }" class="btn btn-danger">卸载</a>
+                                {if condition="$item->hasNewVersion()"}
+                                <a onclick="if (confirm('确定升级？')) { location.href = '{:url('addons/addons/upgrade', ['addons_sign' => $item->addons_sign])}'; }" class="btn btn-warning">升级</a>
+                                {/if}
+                                {if condition="$item->addons_status eq 1"}
+                                <a onclick="if (confirm('确定禁用？')) { location.href = '{:url('addons/addons/ban', ['addons_sign' => $item->addons_sign])}'; }" class="btn btn-primary">禁用</a>
+                                {/if}
+                                {if condition="$item->addons_status neq 1"}
+                                <a onclick="if (confirm('确定启用？')) { location.href = '{:url('addons/addons/ban', ['addons_sign' => $item->addons_sign])}'; }" class="btn btn-primary">启用</a>
+                                {/if}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {/volist}
+                {/if}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{include file="common:footer" /}
+
+{/block}

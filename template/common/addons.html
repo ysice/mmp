@@ -1,0 +1,31 @@
+{extend name="./layout/base" /}
+
+{block name="body"}
+
+{include file="./common/nav" /}
+
+<div class="container bg-fff mt-20 br-5 pt-15-pb-15">
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="{:url('addons/addons/getList')}">返回列表</a>
+        </div>
+        <div class="col-lg-12 text-center mb-20 bb-eee" style="line-height: 200px; font-size: 64px;">
+            <span style="color: #16a085;">W</span><span style="color: #16a070;">e</span><span style="color: #16a055;">f</span><span style="color: #16a040;">e</span><span style="color: #16a025;">e</span>.
+        </div>
+        <div class="col-lg-4 text-center">
+            <img src="/addons/logo/{$addons['addons_sign']}/{:get_addon_logo_name($addons['addons_sign'])}" class="img-thumbnail">
+        </div>
+        <div class="col-lg-8">
+            <h3>{$addons.addons_name}</h3>
+            <p>{$addons.addons_description}</p>
+            <p>作者：<b>{$addons.addons_author}</b></p>
+            <p>版本：<b>{$addons.addons_version}</b></p>
+            <p>安装时间：<b>{$addons.created_at}</b></p>
+            <p>更新时间：<b>{$addons.updated_at}</b></p>
+        </div>
+    </div>
+</div>
+
+{include file="./common/footer" /}
+
+{/block}

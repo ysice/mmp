@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wefee安装第四步 - PowerBy Wefee.CC</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/install/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center logo-text">Wefee.</h1>
+        </div>
+
+        <!-- 步骤条 -->
+        <div class="col-lg-12">
+            <ul class="step-menu">
+                <li><span>第一步</span></li>
+                <li><span>第二步</span></li>
+                <li><span>第三步</span></li>
+                <li class="active"><span>第四步</span></li>
+            </ul>
+        </div>
+
+        <!-- Main -->
+        <div class="col-lg-12">
+            <h3 class="text-center" style="margin-bottom: 20px;">开始安装</h3>
+            <div class="step">
+            </div>
+            <div class="text-center success" style="display: none">
+                <h3>安装成功</h3>
+                <p style="line-height: 50px;">后台地址：<a href="/">后台管理地址</a></p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        var tasks = [
+            {
+                type: 'db',
+                val: 'addons',
+                mes: '安装表：addons'
+            },{
+                type: 'db',
+                val: 'addons_hooks',
+                mes: '安装表：addons_hooks'
+            },{
+                type: 'db',
+                val: 'admins',
+                mes: '安装表：admins'
+            },{
+                type: 'db',
+                val: 'hooks',
+                mes: '安装表：hooks'
+            },{
+                type: 'db',
+                val: 'migrations',
+                mes: '安装表：migrations'
+            },{
+                type: 'db',
+                val: 'reply_contents',
+                mes: '安装表：reply_contents'
+            },{
+                type: 'db',
+                val: 'reply_rules',
+                mes: '安装表：reply_rules'
+            },{
+                type: 'db',
+                val: 'addons',
+                mes: '安装表：addons'
+            },{
+                type: 'db',
+                val: 'settings',
+                mes: '安装表：settings'
+            },{
+                type: 'db',
+                val: 'wechat_focus_records',
+                mes: '安装表：wechat_focus_records'
+            },{
+                type: 'data',
+                val: '',
+                mes: '初始化数据'
+            },{
+                type: 'hook',
+                val: '',
+                mes: '初始化钩子'
+            },{
+                type: 'lock',
+                val: '',
+                mes: '生成锁文件'
+            }
+        ];
+
+        var i = 0,stop= 0;
+        var isSuc = function () {
+            if (i >= tasks.length) {
+                $('.success').show();
+            }
+        };
+
+        setInterval(function () {
+            if (stop == 1) {
+                return ;
+            }
+            if (tasks.length > i) {
+                $('.step').append('<p>'+ tasks[i].mes +'</p>');
+                $.post("{:url('install/index/postStep4')}", {
+                    action: tasks[i].type,
+                    val: tasks[i].val
+                }, function (data) {
+                    if (data.code != 1) {
+                        stop = 1;
+                        alert(data.msg);
+                    }
+                    isSuc();
+                }, 'json');
+            }
+            i++;
+        }, 1000);
+    });
+</script>
+</body>
+</html>

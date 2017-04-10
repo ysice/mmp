@@ -1,0 +1,52 @@
+{extend name="layout:base" /}
+
+{block name="header"}
+<style>
+    #particleground {
+        position: fixed; top: 0px; left: 0px; height: 100%; width: 100%; overflow: hidden;
+    }
+    .login-form {
+        position: fixed; left: 50%; top: 50%; z-index: 11; width: 400px; height: auto;
+        min-height: 350px; background-color: #FFF; margin-top: -240px; margin-left: -200px;
+        border-radius: 3px;
+    }
+</style>
+{/block}
+
+{block name="body"}
+<div id="particleground">
+    <div class="login-form">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <h3 class="text-center">Wefee</h3>
+                <form action="{:url('index/postLogin')}" method="post" role="form">
+                    {:token()}
+                    <div class="form-group">
+                        <label for="username">账号</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="请输入账号">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="请输入密码">
+                    </div>
+
+                    <button type="submit" class="btn btn-default">点击登录</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="footer"}
+<script>
+    require(['jquery', 'particleground'], function ($) {
+        $().ready(function () {
+            $('#particleground').particleground({
+                dotColor: '#fff',
+                lineColor: '#fff'
+            });
+        });
+    });
+</script>
+{/block}

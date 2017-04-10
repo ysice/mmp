@@ -1,0 +1,240 @@
+{extend name="layout:base" /}
+
+{block name="body"}
+
+{include file="common:nav" /}
+
+<div class="container bg-fff mt-20 br-5">
+    <div class="row pt-15-pb-15">
+        <div class="col-lg-12">
+            <form action="{:url('index/setting/postSave')}" method="post">
+                {:token()}
+
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#upload" role="tab" data-toggle="tab">上传配置</a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#cache" role="tab" data-toggle="tab">缓存配置</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content pt-15-pb-15">
+                    <div role="tabpanel" class="tab-pane active" id="upload">
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">存储驱动</label>
+                            <div class="col-lg-5">
+                                <div class="col-lg-4">
+                                    <input type="radio" name="upload_driver" value="default" {if condition="$upload['driver'] eq 'default'"}checked{/if}> 本地存储
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="radio" name="upload_driver" value="qiniu" {if condition="$upload['driver'] eq 'qiniu'"}checked{/if}> 七牛云
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="radio" name="upload_driver" value="aliyun" {if condition="$upload['driver'] eq 'aliyun'"}checked{/if}> 阿里云
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">文件大小</label>
+                            <div class="col-lg-5">
+                                <div class="input-group">
+                                    <input type="text" name="upload_size" value="{:intval($upload['size'])}" class="form-control">
+                                    <div class="input-group-addon">byte</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">允许文件后缀</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="upload_ext" value="{:implode(',', $upload['ext'])}" class="form-control">
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="help-block">多个请用英文逗号隔开</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">允许文件Mime</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="upload_type" value="{:implode(',', $upload['type'])}" class="form-control">
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="help-block">多个请用英文逗号隔开</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">本地文件保存路径</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="upload_path" value="{$upload.path}" class="form-control">
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="help-block">从public目录下面计算</div>
+                            </div>
+                        </div>
+
+                        <div {if condition="$upload.driver neq 'default'"}style="display: none;"{/if} class="upload-param upload-default">
+                            <hr>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">文件访问URL路径</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_default_remote_url" value="{$upload.default.remote_url}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div {if condition="$upload.driver neq 'qiniu'"}style="display: none;"{/if} class="upload-param upload-qiniu">
+                            <hr>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">七牛AccessKey</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_qiniu_access_key" value="{$upload.qiniu.access_key}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">七牛SecretKey</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_qiniu_secret_key" value="{$upload.qiniu.secret_key}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">七牛Bucket</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_qiniu_bucket" value="{$upload.qiniu.bucket}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">七牛访问域名</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_qiniu_remote_url" value="{$upload.qiniu.remote_url}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div {if condition="$upload.driver neq 'aliyun'"}style="display: none;"{/if} class="upload-param upload-aliyun">
+                            <hr>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">阿里云ServerUrl</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_aliyun_oss_server" value="{$upload.aliyun.oss_server}" class="form-control">
+                                </div>
+                                <div class="col-lg-5">
+                                    内网，外网均可以
+                                </div>
+                            </div>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">阿里云KeyId</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_aliyun_access_key_id" value="{$upload.aliyun.access_key_id}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">阿里云KeySecret</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_aliyun_access_key_secret" value="{$upload.aliyun.access_key_secret}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">阿里云Bucket</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_aliyun_bucket" value="{$upload.aliyun.bucket}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-20">
+                                <label class="col-lg-2 text-right">阿里云文件访问域名</label>
+                                <div class="col-lg-5">
+                                    <input type="text" name="upload_aliyun_remote_url" value="{$upload.aliyun.remote_url}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div role="tabpanel" class="tab-pane" id="cache">
+                        
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">Memcache Host</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="memcache_host" class="form-control" value="{:config('memcache.host')}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">Memcache Port</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="memcache_port" class="form-control" value="{:config('memcache.port')}">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">Redis Host</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="redis_host" class="form-control" value="{:config('redis.host')}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">Redis port</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="redis_port" class="form-control" value="{:config('redis.port')}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">Redis password</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="redis_password" class="form-control" value="{:config('redis.password')}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-20">
+                            <label class="col-lg-2 text-right">Redis database</label>
+                            <div class="col-lg-5">
+                                <input type="text" name="redis_database" class="form-control" value="{:config('redis.database')}">
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-20">
+                    <div class="col-lg-5 col-lg-offset-2">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-check-circle" aria-hidden="true"></i> 确定
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{include file="common:footer" /}
+
+{/block}
+
+{block name="footer"}
+<script>
+    require(["icheck"], function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-green',
+            radioClass: 'iradio_minimal-green',
+            increaseArea: '20%'
+        });
+
+        $('input').on('ifChecked', function(event){
+            var driver = $(this).val();
+            $('.upload-param').hide();
+            $('.upload-' + driver).show();
+        });
+    });
+</script>
+{/block}

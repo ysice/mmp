@@ -1,11 +1,8 @@
-# mmp
-这是一个神奇的项目
-
-# 分支说明
-不同分支对应不同的测试，均为测试demo，对其可用性并不作保证
-
-# master分支
-常用脚本。
-
-
-
+<h1 align="center">Wefee</h1>
+<p align="center">
+<a href="https://wefee.cc/">主页</a> |
+<a href="https://wefee.io/">开发文档</a> |
+<a href="#">应用市场</a> | 
+<a href="https://wefee.cc/install-package.html">安装包下载</a>
+</p>
+<p align="center">您的微信小管家！</p>

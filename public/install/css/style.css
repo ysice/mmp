@@ -1,0 +1,70 @@
+body { background-color: #fbfbfb; font-family: "Microsoft Yahei"; letter-spacing: 3px; padding-bottom: 100px; }
+li { list-style: none; }
+a { color: #333; }
+a:hover { color: #333; }
+
+/* 按钮样式 */
+.button {
+	display: inline-block; width: auto; height: auto; padding: 10px 50px; line-height: 40px;
+	letter-spacing: 5px; margin-left: 20px;
+}
+a.button { 
+	color: #FFF;
+}
+.button-on {
+	background-color: #000;
+}
+.button-off {
+	background-color: #ccc;
+}
+
+/* Logo样式 */
+.logo-text { 
+	line-height: 200px; font-weight: 200;
+}
+
+/* 底部操作样式 */
+.option-menu {
+	margin-top: 50px;
+}
+
+/* 安装步骤一 */
+ul.step-menu {
+	width: 100%; height: 60px; line-height: 60px; border-bottom: 1px solid #000;
+}
+ul.step-menu li {
+	width: 25%; height: 60px; float: left; text-align: center;
+}
+ul.step-menu li.active {
+	background-color: #000; color: #fff; font-size: 16px;
+}
+
+/* 安装步骤二 */
+table {
+	width: 100%; height: auto; border-collapse: collapse; empty-cells: show;
+	table-layout: fixed;
+}
+tr {
+	border-bottom: 1px solid #000;
+}
+tr:hover {
+	background-color: #eee;
+}
+tr.disabled {
+	background-color: #000; color: #fff;
+}
+th {
+	font-weight: 800;
+}
+th,td {
+	height: 40px; line-height: 40px;
+}
+
+/* 安装步骤三 */
+.form-label {
+	line-height: 40px; text-align: right;
+}
+.form-input-text {
+	width: 90%; height: 39px; border: 0px; border-bottom: 1px solid #000; line-height: 39px;
+	padding: 0px 10px; letter-spacing: 2px;
+}

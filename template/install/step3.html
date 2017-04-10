@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wefee安装第三步 - PowerBy Wefee.CC</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/install/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center logo-text">Wefee.</h1>
+        </div>
+
+        <!-- 步骤条 -->
+        <div class="col-lg-12">
+            <ul class="step-menu">
+                <li><span>第一步</span></li>
+                <li><span>第二步</span></li>
+                <li class="active"><span>第三步</span></li>
+                <li><span>第四步</span></li>
+            </ul>
+        </div>
+
+        <!-- Main -->
+        <div class="col-lg-12">
+            <h3 class="text-center" style="margin-bottom: 20px;">基本配置</h3>
+            <form action="" class="form-horizontal row form">
+                <h4>数据库</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">地址</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="db_host" value="127.0.0.1" class="form-input-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">端口</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="db_port" value="3306" class="form-input-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">数据库</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="db_name" value="wefee" class="form-input-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">用户名</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="db_user" value="root" class="form-input-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="db_pass" value="" class="form-input-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">表前缀</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="db_prefix" value="wefee_" class="form-input-text">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <a href="javascript:void(0);" class="db-test">点击测试</a>
+                        <p class="test-result"></p>
+                    </div>
+                </div>
+
+                <h4>管理员账户</h4>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">用户名</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="username" value="" class="form-input-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="password" value="" class="form-input-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 form-label">密码确认</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="password_confirm" value="" class="form-input-text">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-12 option-menu text-right">
+            <a href="javascript:void(0);" class="button button-on go">继续安装</a>
+        </div>
+
+    </div>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+
+        $('.db-test').click(function () {
+            $('.test-result').html('');
+            $('.test-result').append('测试中...<br />');
+            $.post('{:url("install/test/db")}', {
+                db_host: $('input[name="db_host"]').val(),
+                db_port: $('input[name="db_port"]').val(),
+                db_name: $('input[name="db_name"]').val(),
+                db_user: $('input[name="db_user"]').val(),
+                db_pass: $('input[name="db_pass"]').val(),
+                db_prefix: $('input[name="db_prefix"]').val()
+            }, function (data) {
+                console.log(data);
+                $('.test-result').append(data.msg + '<br />');
+            }, 'json');
+        });
+
+        $('.go').click(function () {
+            if (
+                    $('input[name="db_host"]').val() == '' ||
+                    $('input[name="db_port"]').val() == '' ||
+                    $('input[name="db_name"]').val() == '' ||
+                    $('input[name="db_user"]').val() == '' ||
+                    $('input[name="db_prefix"]').val() == ''
+            ) {
+                alert('请填写数据库信息');
+                return ;
+            }
+
+            if ($('input[name="username"]').val() == '') {
+                alert('请输入用户名');
+                return ;
+            }
+            if ($('input[name="password"]').val() == '') {
+                alert('请输入密码');
+                return ;
+            }
+            if ($('input[name="password"]').val() != $('input[name="password_confirm"]').val()) {
+                alert('两次输入密码不一致');
+                return ;
+            }
+
+            /** 先保存信息 */
+            $.post("{:url('install/index/postStep3')}", $('.form').serialize(), function (data) {
+                if (data.code == 1) {
+                    location.href = '{:url("install/index/step4")}';
+                }
+            }, 'json');
+        });
+    });
+</script>
+</body>
+</html>

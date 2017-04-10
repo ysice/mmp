@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取音频MediaID - PowerBy Wefee.CC</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/require.js"></script>
+    <script src="/static/main.js"></script>
+    <style>
+        h3 { line-height: 160px; background-color: #16987e; color: #FFF; margin: 0px; font-family: "Microsoft Yahei"; margin-bottom: 20px; }
+        li { list-style: none; }
+    </style>
+</head>
+<body>
+
+{:token()}
+
+<h3 class="text-center">获取音频MediaID</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2">选择文件</label>
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        <input type="text" name="voice_media_id" class="form-control" placeholder="请选择文件" disabled>
+                        <div class="input-group-addon select-file" style="cursor: pointer;">选择文件</div>
+                    </div>
+                    <div style="display: none" id="select-file"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="alert alert-warning">
+                <p><b>注意：</b></p>
+                <p>大小：2M，播放长度不超过 60s，支持 AMR，MP3 格式</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>require(['bootstrap'])</script>
+<script>
+    require(['jquery', 'webuploader'], function ($, wu) {
+        $('.select-file').click(function () {
+            $('#select-file input[name="file"]').click();
+        });
+        var uploader = wu.create({
+            auto: true,
+            server: "{:url('wechat/service/uploadVoice')}",
+            pick: {
+                id: '#select-file',
+                multiple: false
+            },
+            accept: {
+                title: 'Voice',
+                extensions: 'mp3,amr'
+            }
+        });
+        uploader.on('startUpload', function () {
+            layer.load(1, {shade: [0.5, '#fff']});
+        });
+        uploader.on('uploadSuccess', function(file, response) {
+            if (typeof (response.error) != 'undefined') {
+                alert(response.error);
+                return ;
+            }
+            $('input[name="voice_media_id"]').val(response.success);
+            layer.closeAll();
+        });
+    });
+</script>
+</body>
+</html>

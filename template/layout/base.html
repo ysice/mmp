@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/js/layer/skin/default/layer.css">
+    <script src="/static/require.js"></script>
+    <script src="/static/main.js"></script>
+    {block name="header"}{/block}
+</head>
+<body>
+
+{block name="body"}{/block}
+
+{literal}
+<script>require(['bootstrap'])</script>
+{/literal}
+{block name="footer"}{/block}
+</body>
+</html>

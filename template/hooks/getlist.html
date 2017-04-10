@@ -1,0 +1,87 @@
+{extend name="layout:base" /}
+
+{block name="header"}
+<link rel="stylesheet" href="/static/js/bootstrap-switch/bootstrap-switch.min.css">
+<style>
+    .pointer { cursor: pointer; padding-top: 5px; padding-bottom: 5px; }
+    .pointer:hover { background-color: #eee; }
+</style>
+{/block}
+
+{block name="body"}
+
+{include file="common:nav" /}
+
+<div class="container bg-fff mt-20 br-5">
+    <div class="row pt-15-pb-15">
+        {volist name="hooks" id="hook" key="index"}
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span>{$hook->hook_name} : <b>{$hook->hook_sign}</b></span>
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <div class="hook_label switch">
+                                <input type="checkbox" data-id="{$hook->id}" {if condition="$hook->hook_status eq 1"}checked{/if}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="row" id="box_{$index}">
+                        {volist name="$hook->addons" id="addons"}
+                        <li class="col-lg-3 item pointer" data-sign="{$addons->addons->addons_sign}">
+                            <strong>{$addons->addons->addons_name}</strong>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    {$hook->hook_description}
+                </div>
+            </div>
+        </div>
+        <!--<script>-->
+            <!--require(["jquery", "sortable"], function ($, Sortable) {-->
+                <!--var id = 'box_{$index}',hook_sign='{$hook->hook_sign}';-->
+                <!--Sortable.create(document.getElementById(id), {-->
+                    <!--animation: 150,-->
+                    <!--onEnd: function () {-->
+                        <!--var array = [];-->
+                        <!--$('#' + id + ' li').each(function (ind,obj) {-->
+                            <!--array.push($(obj).attr('data-sign'));-->
+                        <!--});-->
+                        <!--$.post("{:url('addons/hooks/postSort')}", {hook_sign: hook_sign, sortArray: array}, function (data) {-->
+                            <!--//-->
+                        <!--}, 'json');-->
+                    <!--},-->
+                <!--});-->
+            <!--});-->
+        <!--</script>-->
+        {/volist}
+    </div>
+</div>
+
+{include file="common:footer" /}
+
+{/block}
+
+{block name="footer"}
+<script>
+    require(["bootstrapswitch"], function () {
+        /** 注册Bootstrap-switch */
+        $('input[type="checkbox"]').bootstrapSwitch({
+            "onSwitchChange": function (e, data) {
+                var id = $(this).attr('data-id');
+                $.post("{:url('addons/hooks/ban')}", {id: id}, function (data) {
+                    if (code != 1) {
+                        layer.msg(data.msg);
+                    }
+                });
+            }
+        });
+    });
+</script>
+{/block}

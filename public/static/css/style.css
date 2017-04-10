@@ -1,0 +1,64 @@
+* { font-family: "Microsoft Yahei"; font-weight: 200; }
+body { background-color: #16a085; }
+a { text-decoration: none; color: #000; font-weight: 400; }
+a:hover { text-decoration: none; }
+li { list-style: none; }
+
+/** 浮动 */
+.float-l { float: left; }
+.float-r { float: right; }
+
+/** 背景 */
+.bg-fff { background-color: #fff; }
+
+/** 圆角 */
+.br-5 { border-radius: 5px; }
+.br-10 { border-radius: 10px; }
+
+/** 内边距 */
+.no-padding { padding: 0px; }
+.pd-5 { padding: 5px; }
+.pd-10 { padding: 10px; }
+.pd-15 { padding: 15px; }
+.pd-20 { padding: 20px; }
+.pt-15-pb-15 { padding-top: 15px; padding-bottom: 15px; }
+.pb-5 { padding-bottom: 5px; }
+.pb-10 { padding-bottom: 10px; }
+.pb-15 { padding-bottom: 15px; }
+.pb-20 { padding-bottom: 20px; }
+
+/** 外边距 */
+.no-margin { margin: 0px; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+
+/** 行高 */
+.lh-30 { line-height: 30px; }
+.lh-35 { line-height: 35px; }
+.lh-40 { line-height: 40px; }
+.lh-45 { line-height: 45px; }
+.lh-50 { line-height: 50px; }
+.lh-55 { line-height: 55px; }
+.lh-60 { line-height: 60px; }
+
+/** 边框 */
+.bb-eee { border-bottom: 1px solid #eee; }
+
+/** 全局头部导航 */
+nav.top-header-menu {
+    height: 60px; background-color: #FFF;
+}
+nav.top-header-menu .top-header-menu-box ul li {
+    float: left; height: 60px; line-height: 60px; padding: 0px 15px;
+}
+nav.top-header-menu .top-header-menu-box ul li.active {
+    border-bottom: 3px solid #16a085; color: #16a085;
+}
+nav.top-header-menu .top-header-menu-box ul li.active a {
+    color: #16a085;
+}
+nav.top-header-menu .top-header-menu-box ul li:hover {
+    border-bottom: 3px solid #16a085;
+}

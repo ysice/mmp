@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wefee安装第二步 - PowerBy Wefee.CC</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/install/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center logo-text">Wefee.</h1>
+        </div>
+
+        <!-- 步骤条 -->
+        <div class="col-lg-12">
+            <ul class="step-menu">
+                <li><span>第一步</span></li>
+                <li class="active"><span>第二步</span></li>
+                <li><span>第三步</span></li>
+                <li><span>第四步</span></li>
+            </ul>
+        </div>
+
+        <!-- Main -->
+        <div class="col-lg-12">
+            <h3 class="text-center" style="margin-bottom: 20px;">环境检测</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th width="20%">环境</th>
+                    <th width="20%">要求</th>
+                    <th width="40%">当前值</th>
+                    <th width="20%">条件</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr {$is_on_php ? '' : 'disabled'}>
+                    <td>PHP版本</td>
+                    <td>>=5.6</td>
+                    <td>{$php_version}</td>
+                    <td>{$is_on_php ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_openssl ? '' : 'disabled'}">
+                    <td>OpenSSL扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_openssl ? '已开' : '未知'}</td>
+                    <td>{$is_on_openssl ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_openssl ? '' : 'disabled'}">
+                    <td>fileinfo扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_openssl ? '已开' : '未知'}</td>
+                    <td>{$is_on_openssl ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_pdo_mysql ? '' : 'disabled'}">
+                    <td>pdo_mysql扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_pdo_mysql ? '已开' : '未知'}</td>
+                    <td>{$is_on_pdo_mysql ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_curl ? '' : 'disabled'}">
+                    <td>Curl扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_curl ? '已开' : '未知'}</td>
+                    <td>{$is_on_curl ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_gd ? '' : 'disabled'}">
+                    <td>GD库扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_gd ? '已开' : '未知'}</td>
+                    <td>{$is_on_gd ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_tokenizer ? '' : 'disabled'}">
+                    <td>Tokenizer扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_tokenizer ? '已开' : '未知'}</td>
+                    <td>{$is_on_tokenizer ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_mcrypt ? '' : 'disabled'}">
+                    <td>Mcrypt扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_mcrypt ? '已开' : '未知'}</td>
+                    <td>{$is_on_mcrypt ? '满足' : '不满足'}</td>
+                </tr>
+                <tr class="{$is_on_iconv ? '' : 'disabled'}">
+                    <td>Iconv扩展</td>
+                    <td>开启</td>
+                    <td>{$is_on_iconv ? '已开' : '未知'}</td>
+                    <td>{$is_on_iconv ? '满足' : '不满足'}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-lg-12 option-menu text-right">
+            <a href="javascript:void(0);" data-url="{:url('install/index/step3')}" class="button button-on go">继续安装</a>
+        </div>
+
+    </div>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('.go').click(function () {
+            if ($('.disabled').length > 0) {
+                alert('请检查服务器环境配置！当前无法进行安装。');
+                return false;
+            }
+            location.href = $(this).attr('data-url');
+        });
+    });
+</script>
+</body>
+</html>

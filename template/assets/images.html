@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>本站图片资源浏览</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <script src="/static/require.js"></script>
+    <script src="/static/main.js"></script>
+    <style>
+        h3 { line-height: 160px; background-color: #16987e; color: #FFF; margin: 0px; font-family: "Microsoft Yahei"; margin-bottom: 20px; }
+        li { list-style: none; }
+        .container { width: 990px!important; }
+        ul { width: 100%; height: auto; }
+        ul li { width: 150px; height: 120px; margin: 10px 5px; float: left; cursor: pointer; }
+        ul li:hover { border: 5px solid #16987e; }
+    </style>
+</head>
+<body>
+
+{:token()}
+
+<h3 class="text-center">图片资源文件</h3>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-12 form-horizontal">
+            {wefee:image name="image" title="上传图片" value="" /}
+        </div>
+
+        <div class="col-lg-12">
+            <div class="alert alert-warning">
+                <p><b>问：怎么获取图片的 MediaID 值？</b></p>
+                <p>答：点击图片就行辣。</p>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <ul style="padding: 0px;">
+                {volist name="images" id="image"}
+                <li>
+                    <img data-original="/images/{$image}" class="lazy" width="150" height="120">
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>require(['bootstrap'])</script>
+<script>
+    require(['jquery', 'lazyload', 'layer'], function ($) {
+        $('img.lazy').lazyload();
+
+        $('img').click(function () {
+            var src = $(this).attr('src');
+            var _token = $('input[name="__token__"]').val();
+            if (confirm('确定获取该图片MediaID？')) {
+                layer.load(1, {shade: [0.5, '#fff']});
+                $.post("{:url('wechat/service/uploadImage')}", {
+                    "file": src,
+                    "_token": _token
+                }, function (data) {
+                    layer.closeAll('loading');
+                    if (typeof (data.error) != 'undefined') {
+                        layer.alert(data.error, {icon: 3});
+                    } else {
+                        layer.alert('MediaID值：' + data.success, {icon: 6});
+                    }
+                }, 'json');
+            }
+        });
+    });
+</script>
+</body>
+</html>
